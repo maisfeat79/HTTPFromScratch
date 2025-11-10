@@ -36,7 +36,7 @@ def handle_delete(path, name, age) -> str:
         logger.info(f"Name: {name} deleted from database")
     return get_defaultHTTPResponse(db, path)
 
-Routes = { 
+Methods = { 
     "GET": handle_get,
     "POST": handle_post,
     "PUT": handle_put,
@@ -52,24 +52,18 @@ def method_handler(method, data, path):
         age = split_data.split('"')[7]
         return method(path, name, age)
 
-
-
 def get_method(data: str):
     method = data.split(" ")[0].strip().upper()
-    return Routes[method]
+    return Methods[method]
 
 def get_path(data: str):
     return data.split(" ")[1].strip()
 
-
-
 with socket.socket(socket.AF_INET,socket.SOCK_STREAM) as s:
     s.bind((HOST,PORT))
     logger.info(f"Server started at {HOST}:{PORT}")
-
     s.listen()
     logger.info(f"Server listens at {HOST}:{PORT}")
-
     while True:
         logger.info("Waiting for connection")
         conn, addr = s.accept()
@@ -83,12 +77,9 @@ with socket.socket(socket.AF_INET,socket.SOCK_STREAM) as s:
                 response = method_handler(method, data.decode(), path)
             except Exception as e:
                 logger.error(f"Invalid request: {e}")
-
             logger.info("Request received:")
             print("-----------------------------------\\")
             print(data.decode())
             print("------------------------------------/")
             conn.sendall(response.encode())
         logger.info("Connection closed")
-
-
