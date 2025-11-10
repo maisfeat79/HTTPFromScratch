@@ -21,10 +21,10 @@ class RequestBuilder:
         self.itself = self.start_line + self.headers + "\n" + self.body 
 
 def get_user_input():
-    method = input("Select Method (GET, POST, PUT, DELETE): ")
-    path = input("Select Path: ")
+    method = input("Select Method (GET, POST, PUT, DELETE): ").strip()
+    path = input("Select Path: ").strip()
     if method.upper() in ["POST", "PUT", "DELETE"]:
-        name, age = input("Name: "), input("Age: ")
+        name, age = input("Name: ").strip(), input("Age: ").strip()
         body = '{"name":"'+ name + '", "age": "'+ age +'"}'
     else:
         body = ""
@@ -45,7 +45,3 @@ while (True):
         print("------------------------------------\\")
         print(data.decode())
         print("------------------------------------/")
-
-
-
-
